@@ -2,6 +2,7 @@
 
 int main(int argc, char **argv)
 {
+    Trace::SetFileName("trace.txt");
     Trace::SetTraceLevelFlag(Level::DEBUG | Level::INFORMATION);
 
     {

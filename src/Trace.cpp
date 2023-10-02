@@ -1,6 +1,7 @@
 #include "Trace.h"
 
 unsigned char Trace::flag_ = Level::ALL;
+std::string Trace::file_ = ".";
 
 Trace::Trace(const std::string &message) : level_(Level::ALL), message_(message)
 {
@@ -25,6 +26,11 @@ void Trace::SetTraceLevelFlag(unsigned char flag)
     flag_ = flag;
 }
 
+void Trace::SetFileName(const std::string &file)
+{
+    file_ = file;
+}
+
 void Trace::Print(const std::string &tail) const
 {
     if (!(flag_ & level_))
@@ -32,14 +38,32 @@ void Trace::Print(const std::string &tail) const
         return;
     }
 
-    std::cout << "[" << CurrentDateTimeToString() << "][" << LevelToString(level_);
-
+    std::string buffer = "[" + CurrentDateTimeToString() + "][" + LevelToString(level_);
+    
     if (tail.size())
     {
-        std::cout << "][" << tail;
+        buffer += "][" + tail;
+    }
+    
+    buffer += "]: " + message_ + "\n";
+
+    std::cout << buffer;
+
+    Write(buffer);   
+}
+
+void Trace::Write(const std::string &line) const
+{
+    std::ofstream file(file_, std::ios::out | std::ios::app);
+
+    if (!file.is_open())
+    {
+        return;
     }
 
-    std::cout << "]: " << message_ << std::endl;
+    file << line;
+
+    file.close();
 }
 
 std::string Trace::LevelToString(Level level)

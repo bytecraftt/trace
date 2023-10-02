@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <fstream>
 #include <iostream>
 
 enum Level
@@ -23,8 +24,10 @@ public:
     ~Trace();
 
     static void SetTraceLevelFlag(unsigned char flag);
+    static void SetFileName(const std::string &file);
 protected:
     void Print(const std::string &tail) const;
+    void Write(const std::string &line) const;
 
     static std::string LevelToString(Level level);
     static std::string CurrentDateTimeToString();
@@ -32,4 +35,5 @@ private:
     Level level_;
     std::string message_;
     static unsigned char flag_;
+    static std::string file_;
 };
