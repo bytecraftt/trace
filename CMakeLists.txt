@@ -15,4 +15,4 @@ include_directories(${INCLUDES})
 add_library(tracelib STATIC ${SOURCES})
 link_libraries(tracelib)
 
-add_executable(${PROJECT_NAME} trace.cpp)
+add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/trace.cpp)
