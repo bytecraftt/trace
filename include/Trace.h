@@ -25,12 +25,17 @@ public:
 
     static void SetTraceLevelFlag(unsigned char flag);
     static void SetFileName(const std::string &file);
+
+    operator std::string() const;
+
 protected:
+    std::string Line(const std::string &tail = "") const;
     void Print(const std::string &tail) const;
     void Write(const std::string &line) const;
 
     static std::string LevelToString(Level level);
     static std::string CurrentDateTimeToString();
+
 private:
     Level level_;
     std::string message_;

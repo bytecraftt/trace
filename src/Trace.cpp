@@ -31,6 +31,25 @@ void Trace::SetFileName(const std::string &file)
     file_ = file;
 }
 
+Trace::operator std::string() const
+{
+    return Line();
+}
+
+std::string Trace::Line(const std::string &tail) const
+{
+    std::string result = "[" + CurrentDateTimeToString() + "][" + LevelToString(level_);
+
+    if (tail.size())
+    {
+        result += "][" + tail;
+    }
+    
+    result += "]: " + message_ + "\n";
+
+    return result;
+}
+
 void Trace::Print(const std::string &tail) const
 {
     if (!(flag_ & level_))
@@ -38,14 +57,7 @@ void Trace::Print(const std::string &tail) const
         return;
     }
 
-    std::string buffer = "[" + CurrentDateTimeToString() + "][" + LevelToString(level_);
-    
-    if (tail.size())
-    {
-        buffer += "][" + tail;
-    }
-    
-    buffer += "]: " + message_ + "\n";
+    std::string buffer = Line(tail);
 
     std::cout << buffer;
 
