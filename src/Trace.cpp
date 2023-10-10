@@ -2,14 +2,17 @@
 
 unsigned char Trace::flag_ = Level::ALL;
 std::string Trace::file_ = ".";
+unsigned short Trace::tab_ = 0;
 
 Trace::Trace(const std::string &message) : level_(Level::ALL), message_(message)
 {
+    tab_++;
     Print(Level::DEBUG == level_ ? "BEGIN" : "");
 }
 
 Trace::Trace(Level level, const std::string &message) : level_(level), message_(message)
 {
+    tab_++;
     Print(Level::DEBUG == level_ ? "BEGIN" : "");
 }
 
@@ -19,6 +22,7 @@ Trace::~Trace()
     {
         Print("END");
     }
+    tab_--;
 }
 
 void Trace::SetTraceLevelFlag(unsigned char flag)
@@ -38,7 +42,7 @@ Trace::operator std::string() const
 
 std::string Trace::Line(const std::string &tail) const
 {
-    std::string result = "[" + CurrentDateTimeToString() + "][" + LevelToString(level_);
+    std::string result = std::string(tab_ - 1, '\t') + "[" + CurrentDateTimeToString() + "][" + LevelToString(level_);
 
     if (tail.size())
     {

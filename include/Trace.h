@@ -41,4 +41,5 @@ private:
     std::string message_;
     static unsigned char flag_;
     static std::string file_;
+    static unsigned short tab_;
 };
